@@ -37,6 +37,7 @@ It might be used for classifications around those BUS stations, Department store
 ```
 pip install -r requirements.txt
 ```
+python version should be 3.6.x
 
 ### Preprocessing
 
