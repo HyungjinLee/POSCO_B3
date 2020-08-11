@@ -28,7 +28,7 @@ It might be used for classifications around those BUS stations, Department store
 
 * AFAD
 
-https://github.com/afad-dataset?tab=overview&from=2015-12-01&to=2015-12-31
+  https://github.com/afad-dataset?tab=overview&from=2015-12-01&to=2015-12-31
 
 * Because the previous model is basically for Western Faces, we have made a new model trained with Asian Faces.  
 
