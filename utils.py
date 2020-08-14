@@ -15,6 +15,8 @@ import re
 
 RESIZE_AOI = 256
 RESIZE_FINAL = 227
+#RESIZE_AOI = 150
+#RESIZE_FINAL = 160
 
 # Modifed from here
 # http://stackoverflow.com/questions/3160699/python-progress-bar#3160819
@@ -94,7 +96,7 @@ def _is_png(filename):
     """
     return '.png' in filename
         
-def make_multi_image_batch(filenames, coder):
+def make_multi_image_batch(image_data, coder):
     """Process a multi-image batch, each with a single-look
     Args:
     filenames: list of paths
@@ -102,26 +104,28 @@ def make_multi_image_batch(filenames, coder):
     Returns:
     image_buffer: string, JPEG encoding of RGB image.
     """
-
-    images = []
-
-    for filename in filenames:
-        with tf.gfile.FastGFile(filename, 'rb') as f:
-            image_data = f.read()
-        # Convert any PNG to JPEG's for consistency.
-        if _is_png(filename):
-            print('Converting PNG to JPEG for %s' % filename)
-            image_data = coder.png_to_jpeg(image_data)
+    image_data[:, :, 2] = np.ones([image_data.shape[0],image_data.shape[1]])*50/255.0
+    image = image_data
     
-        image = coder.decode_jpeg(image_data)
-        
-        crop = tf.image.resize_images(image, (RESIZE_FINAL, RESIZE_FINAL))
-        image = standardize_image(crop)
-        images.append(image)
+    #with tf.gfile.FastGFile(filename, 'rb') as f:
+    #    image_data = f.read()
+    # Convert any PNG to JPEG's for consistency.
+    
+    #if _is_png(filename):
+    #    print('Converting PNG to JPEG for %s' % filename)
+    #    image_data = coder.png_to_jpeg(image_data)
+    
+    images = []
+    #image = coder.decode_jpeg(image)
+    crop = tf.image.resize_images(image, (RESIZE_FINAL, RESIZE_FINAL))
+    image = standardize_image(crop)
+
+    images.append(image)
     image_batch = tf.stack(images)
     return image_batch
 
 def make_multi_crop_batch(image_data, coder):
+    
     """Process a single image file.
     Args:
     filename: string, path to an image file e.g., '/path/to/example.JPG'.
@@ -129,6 +133,7 @@ def make_multi_crop_batch(image_data, coder):
     Returns:
     image_buffer: string, JPEG encoding of RGB image.
     """
+    
     image_data[:, :, 2] = np.ones([image_data.shape[0],image_data.shape[1]])*50/255.0
     image = image_data
         
@@ -155,7 +160,6 @@ def make_multi_crop_batch(image_data, coder):
     return image_batch
 
 
-
 def face_detection_model(model_type, model_path):
     model_type_lc = model_type.lower()
     if model_type_lc == 'yolo_tiny':
@@ -168,3 +172,4 @@ def face_detection_model(model_type, model_path):
         from dlibdetect import FaceDetectorDlib
         return FaceDetectorDlib(model_path)
     return ObjectDetectorCascadeOpenCV(model_path)
+

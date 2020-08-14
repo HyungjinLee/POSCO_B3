@@ -16,7 +16,7 @@ import csv
 
 RESIZE_FINAL = 227
 GENDER_LIST =['M','F']
-AGE_LIST = ['(18,19)','(20,24)','(25,29)','(30,34)','(35,39)']
+AGE_LIST = ['10s','20s','30s','40s']
 MAX_BATCH_SZ = 128
 
 tf.app.flags.DEFINE_string('model_dir', '',
@@ -207,3 +207,4 @@ def main(argv=None):  # pylint: disable=unused-argument
         
 if __name__ == '__main__':
     tf.app.run()
+
