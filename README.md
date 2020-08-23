@@ -28,7 +28,7 @@ It might be used for classifications around those BUS stations, Department store
 
 * AFAD
 
-  [!DATA](https://raw.githubusercontent.com/afad-dataset/pictures/master/afad.png)
+  ![DATA](https://raw.githubusercontent.com/afad-dataset/pictures/master/afad.png)
   
   https://github.com/afad-dataset?tab=overview&from=2015-12-01&to=2015-12-31
 
